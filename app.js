@@ -1,13 +1,11 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const dbConnect = require("./config/dbConnect");
-const { errorHandler, notFound } = require("./middlewears/errorHandler");
 const app = express();
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 const authRoute = require("./routes/authRoute");
 const cookieParser = require("cookie-parser");
-dbConnect();
 const productRouter = require("./routes/productRoute");
 const blogRouter = require("./routes/blogRoute");
 const categoryRouter = require("./routes/categoryRoute");
@@ -19,26 +17,30 @@ const uploadRouter = require("./routes/uploadRoute");
 const couponRouter = require("./routes/couponRoute");
 const morgan = require("morgan");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(cors());
-app.use("/api/user", authRoute);
-app.use("/api/product", productRouter);
-app.use("/api/blog", blogRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/blogcategory", blogCatRouter);
-app.use("/api/brand", brandRouter);
-app.use("/api/enquiry", enqRouter);
-app.use("/api/color", colorRouter);
-app.use("/api/upload", uploadRouter);
-app.use("/api/coupon", couponRouter);
+app.use("/user", authRoute);
+app.use("/product", productRouter);
+app.use("/blog", blogRouter); 
+app.use("/category", categoryRouter);
+app.use("/blogcategory", blogCatRouter);
+app.use("/brand", brandRouter);
+app.use("/enquiry", enqRouter);
+app.use("/color", colorRouter);
+app.use("/upload", uploadRouter);
+app.use("/coupon", couponRouter);
 
-app.use(notFound);
-app.use(errorHandler);
+// .connect(process.env.MONGO_URL)
+  mongoose
+     .connect("mongodb+srv://Raj:Raj123@cluster0.kj8ngom.mongodb.net/?retryWrites=true&w=majority")
+    .then(() => console.log("connected to mongodb"))
+    .catch((err) => console.log(err));
 
-app.listen(PORT, () => {
-  console.log(`Server 2 connected ${PORT}`);
-});
+    app.listen(5000, () => {
+      console.log(`Server connected ${5000}`);
+    });
