@@ -41,11 +41,15 @@ var prodcutSchema = new mongoose.Schema(
     },
     images: [
       {
-        public_id: String,
+        id: String,
         url: String,
       },
     ],
-    color: [{ type: mongoose.Schema.Types.ObjectId, ref: "Color" }],
+    // color: [{ type: mongoose.Schema.Types.ObjectId, ref: "Color" }],
+    color: {
+      type: Array,
+      required: true
+    },
     tags: [],
     ratings: [
       {
